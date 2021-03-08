@@ -4,7 +4,7 @@ import numpy as np
 import re
 from math import ceil, floor
 
-FILE_NAME="/home/lucasperin/elgamal/experiments/tuples.csv"
+FILE_NAME="../../experiments/tuples/tuples.csv"
 CSV_DELIMITER='\t'
 T_MIN=2
 T_MAX=7

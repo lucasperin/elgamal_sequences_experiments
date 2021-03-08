@@ -4,7 +4,7 @@ import numpy as np
 import re
 from math import ceil, floor
 
-FILE_NAME="/home/lucasperin/elgamal/experiments/runs/runs.csv"
+FILE_NAME="../../experiments/runs/runs.csv"
 CSV_DELIMITER='\t'
 T_MIN=1
 T_MAX=6
@@ -101,11 +101,11 @@ def create_histogram(t, bound_start, title, condition=None):
         reader = csv.reader(csvfile, delimiter=CSV_DELIMITER)
         pos = (t-T_MIN)*SHIFT + bound_start
         for row in reader:
-            condition(data, row, pos, t)
+            if len(row) > pos: #sometimes this is required since the sequence might not have all run lengths.
+                condition(data, row, pos, t)
     if len(data) > 0:
         bins = list(range(NUM_BINS))
         h_data = [ data.count(i) for i in bins ]
-        print(data[:20])
         title += " t = {} with {:.2f}% outliers".format(t, (100 - sum(h_data)/len(data)*100))
         plt.bar(bins, h_data)
         plt.title(title)
