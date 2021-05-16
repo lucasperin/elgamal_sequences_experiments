@@ -1,3 +1,7 @@
+experiments/runs/output/*.csv
+experiments/tuples/output/*.csv
+.idea/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
