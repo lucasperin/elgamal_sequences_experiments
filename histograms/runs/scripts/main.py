@@ -10,6 +10,7 @@ thm10_plot_path = "../plots/thm10/"
 v_is_g_run_data = "../../../experiments/runs/v_is_g_run_data.csv"
 v_is_g_plot_path = "../plots/v_is_g/"
 
+ratio_plot_path = "../plots/ratio/"
 
 def run_normal():
     print("Run Normal")
@@ -40,11 +41,19 @@ def run_v_is_g():
         create_histogram(t, UB_DELTA_START, "UB, ", v_is_g_run_data, v_is_g_plot_path, condition_all_ub)
         create_histogram(t, UB_DELTA_START, "UB (g=v), ", v_is_g_run_data, v_is_g_plot_path, condition_g_equals_v)
 
+def ratio_all():
+    ratio("All Data (Normalized)", normal_run_data, ratio_plot_path, 0, True, ratio_condition_all)
+    ratio("All Data And v is Gen (Normalized)", v_is_g_run_data, ratio_plot_path, 0, True, ratio_condition_v_equals_g_all)
+    for v in range(2, 10):
+        ratio("v = {} (Normalized)".format(v), normal_run_data, ratio_plot_path, v, True, ratio_condition_one_v)
+        ratio("v = {} And v is Gen(Normalized)".format(v), v_is_g_run_data, ratio_plot_path, v, True, ratio_condition_v_equals_g_one_v)
+
 
 functions = {
     'normal': run_normal,
     'thm10': run_thm_10,
     'v_is_g': run_v_is_g,
+    'ratio': ratio_all,
 }
 
 if __name__ == '__main__':

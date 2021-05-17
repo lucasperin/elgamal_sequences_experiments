@@ -2,6 +2,12 @@
 
 ---
 
+TODO
+
+Scrip a PDF with all plots
+
+Normalize ratio plot multiplying by V!
+
 ## Requirements
 * numpy
 * matplotlib

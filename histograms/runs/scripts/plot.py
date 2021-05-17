@@ -125,6 +125,64 @@ def create_histogram(t, bound_start, title, file_name, save_path, condition=None
     else:
         print("No bounds for t = {} and {}".format(t, title))
 
+
+"""
+RATIO PLOT
+"""
+
+
+def ratio_condition_all(row, v):
+    return True
+
+
+def ratio_condition_v_equals_g_all(row, v):
+    return int(row[V]) == int(row[G])
+
+
+def ratio_condition_v_equals_g_one_v(row, v):
+    return (int(row[V]) == int(row[G])) and (int(row[V]) == v)
+
+
+def ratio_condition_one_v(row, v):
+    return int(row[V]) == v
+
+
+def ratio(title, file_name, save_path, v, normalized, condition=None):
+    """
+    PLOT HELPER FUNCTIONS
+    """
+    if not callable(condition):
+        return
+    data_x = []
+    data_y = []
+    with open(file_name, 'r') as csvfile:
+        reader = csv.reader(csvfile, delimiter=CSV_DELIMITER)
+        for row in reader:
+            if condition(row, v):
+                for t in range(T_MIN, T_MAX):
+                    current_t = SUM_DELTA_START + (t-1)*SHIFT
+                    next_t    = SUM_DELTA_START + (t)*SHIFT
+                    if len(row) > next_t: #sometimes this is required since the sequence might not have all run lengths.
+                        current_count = int(row[current_t])
+                        next_count = int(row[next_t])
+                        if (current_count > 0) and (current_count > next_count):
+                            data_x.append(t)
+                            if normalized:
+                                data_y.append( (next_count/current_count) * int(row[V]))
+                            else:
+                                data_y.append( (next_count/current_count))
+
+        if len(data_y) > 0:
+            title = "{} - run ratio".format(title)
+            plt.title(title)
+            #plt.scatter(data_x, data_y)
+            plt.hist2d(data_x, data_y, bins=50, cmap=plt.cm.jet, cmin=1)
+            save_name = save_path + re.sub('[^A-Za-z0-9]+', '', title)
+            plt.savefig(save_name, bbox_inches='tight')
+            plt.savefig(save_name, bbox_inches='tight', transparent=True)
+            plt.clf()
+
+
 # def add_labels(fig, ax):
 #     for bar in fig:
 #         height = bar.get_height()
@@ -173,26 +231,3 @@ def create_histogram(t, bound_start, title, file_name, save_path, condition=None
 #     plt.clf()
 
 
-def create_all(file_name, save_path):
-    for t in range(T_MIN, T_MAX+1):
-        create_histogram(t, LB_DELTA_START, "LB, ", file_name, save_path, condition_all_lb)
-        create_histogram(t, LB_DELTA_START, "LB (> 0), ", condition_greater_than_zero)
-        create_histogram(t, UB_DELTA_START, "UB, ", condition_all_ub)
-        create_histogram(t, UB_DELTA_START, "UB (g=v), ", condition_g_equals_v)
-
-
-
-if __name__ == "__main__":
-    file_name = "../../../experiments/runs/normal_run_data.csv"
-    save_path = "../plots/normal"
-    #init_clr9()
-    init_theorem10()
-    create_all()
-
-
-    #create_accuracy(LB_DELTA_START, "Lower Bound Accuracy", "Including zero", "nonzero", condition_all_lb, condition_greater_than_zero)
-    #create_accuracy(UB_DELTA_START, "Upper Bound Accuracy", "all(?)", "g = v", condition_all_ub, condition_g_equals_v)
-    #create_accuracy(LB_DELTA_START, "Envelope Lower Bound Accuracy", "Including zero", "Enveloped", condition_all_lb, condition_all_elb)
-    #create_accuracy(UB_DELTA_START, "Enveloped Upper Bound Accuracy", "all(?)", "Enveloped", condition_all_ub, condition_all_eub)
-    #create_accuracy(LB_DELTA_START, "Envelope Lower Bound Accuracy Nonzero", "Nonzero", "Nonzero Enveloped", condition_greater_than_zero, condition_greater_than_zero_env)
-    #create_accuracy(UB_DELTA_START, "Enveloped Upper Bound Accuracy g = v", "g = v", "g = v Enveloped", condition_g_equals_v, condition_g_equals_v_env)
