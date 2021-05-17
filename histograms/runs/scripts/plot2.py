@@ -1,9 +1,6 @@
 import csv
-import matplotlib.cm as cm
 import matplotlib.pyplot as plt
-import numpy as np
 import re
-from math import ceil, floor, gcd
 
 FILE_NAME="../data.csv"
 SAVE_PATH="../plots/"
