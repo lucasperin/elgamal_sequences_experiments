@@ -1,4 +1,4 @@
-from plot import *
+from runs_plot import *
 
 
 normal_run_data = "../../../experiments/runs/normal_run_data.csv"

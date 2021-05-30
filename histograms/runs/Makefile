@@ -40,4 +40,4 @@ clean_v_is_g:
 clean_ratio:
 	rm -f $(RATIO_DIR)/*.png
 
-clean_all: clean_normal clean_thm10 clean_v_is_g
+clean_all: clean_normal clean_thm10 clean_v_is_g clean_ratio

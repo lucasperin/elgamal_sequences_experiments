@@ -112,6 +112,7 @@ def create_histogram(t, bound_start, title, file_name, save_path, condition=None
         for row in reader:
             if len(row) > pos: #sometimes this is required since the sequence might not have all run lengths.
                 condition(data, row, pos, t)
+
     if len(data) > 0:
         bins = list(range(NUM_BINS))
         h_data = [ data.count(i) for i in bins ]

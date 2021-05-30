@@ -20,9 +20,10 @@ def tuple_count(length, generator, prime, modulo):
 
     return count, min(count.values()), max(count.values())
 
+
 def tuple_count_range(length, generator, prime, modulo):
     count = {}
-    for t in range(1,length+1):
+    for t in range(1, length+1):
         count.update({key: 0 for key in product(range(modulo), repeat=t)})
     current = []
     for i in range(length):
@@ -35,6 +36,7 @@ def tuple_count_range(length, generator, prime, modulo):
         current.append(element_at(i+length, generator, prime, modulo))
 
     return count
+
 
 def tuple_bound(length, generator, prime, modulo):
     t, g, p, v = length, generator, prime, modulo
@@ -85,3 +87,12 @@ def binned_count(length, generator, prime, modulo, number_of_bins):
         pbin = cbin
         cbin += bin_len
     return ret
+
+
+if __name__ ==  "__main__":
+    length = 7
+    generator = 2
+    prime = 1100027
+    modulo = 2
+    count = tuple_count_range(length, generator, prime, modulo)
+    print(count)

@@ -20,11 +20,11 @@ def __find_primes__(prime):
         if (p - 1) % v == 0:
             if v_array[v - 2] > 0:
                 if not USE_V_IS_G:
-                    params.append((p, v, "no"))
-                    v_array[v - 2] -= 1;
+                    params.append((p, v))
+                    v_array[v - 2] -= 1
                 elif v in gens:
-                    params.append((p, v, "yes"))
-                    v_array[v - 2] -= 1;
+                    params.append((p, v))
+                    v_array[v - 2] -= 1
         print(list(v_array))
     return params
 
@@ -57,8 +57,8 @@ def run_experiment(use_v_is_g=False):
 
     with open(filename, 'w') as f:
         for val in primes:
-            p, v, isgen = val
-            f.write("{}\t{}\t{}\n".format(p, v, isgen))
+            p, v = val
+            f.write("{}\t{}\n".format(p, v))
 
 if __name__ == "__main__":
     run_experiment(False)
