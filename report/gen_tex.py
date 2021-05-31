@@ -47,6 +47,8 @@ TWO_FIGS = """
 
 NORMAL_TUPLES = "/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/tuples/plots/normal"
 V_IS_G_TUPLES = '/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/tuples/plots/v_is_g/'
+ACCURACY_TUPLES = '/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/tuples/plots/accuracy/'
+NORMAL_DIST_TUPLES = '/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/tuples/plots/norm_dist/'
 
 NORMAL_RUNS = "/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/runs/plots/normal"
 THM10_RUNS = '/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/runs/plots/thm10'
@@ -75,9 +77,13 @@ if __name__ == "__main__":
     with open(OUTPUT_FILENAME, 'w') as f:
         f.write(HEADER)
         f.write("\n\\section{TUPLES}\n")
-        write_figures(NORMAL_TUPLES, "Run bounds (normal experiment)", f)
+        write_figures(NORMAL_TUPLES, "Tuples bounds (normal experiment)", f)
         clear_page(f)
-        write_figures(NORMAL_TUPLES, "Run bounds (normal experiment)", f)
+        write_figures(V_IS_G_TUPLES, "Tuple bounds (v is Generator experiment)", f)
+        clear_page(f)
+        write_figures(ACCURACY_TUPLES, "Tuple bounds (accuracy experiment)", f)
+        clear_page(f)
+        write_figures(NORMAL_DIST_TUPLES, "Tuple bounds (normalized distribution experiment)", f)
         clear_page(f)
         f.write("\n\\section{RUNS}\n")
         write_figures(NORMAL_RUNS, "Run bounds (normal experiment)", f)

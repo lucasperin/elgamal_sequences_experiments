@@ -5,6 +5,7 @@ import csv
 import matplotlib.pyplot as plt
 import re
 from math import ceil, floor
+from array import array
 
 CSV_DELIMITER='\t'
 T_MIN=2
@@ -185,19 +186,37 @@ def create_normalized_distribution(title, file_name, save_path):
     _shift = 1
     with open(file_name, 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter=CSV_DELIMITER)
-        data = []
+        data = [0]*201
+        outliers = 0
         for row in reader:
             delta_pos = _d_start
             p = int(row[0])
             v = int(row[1])
             t = int(row[3])
             while len(row) > delta_pos:
-                data.append(normalize_delta(p, v, t, int(row[delta_pos])))
+                norm = normalize_delta(p, v, t, int(row[delta_pos]))
+                norm_pos = int(norm*100)
+                if norm_pos > 200 or norm_pos < 0:
+                    outliers +=1
+                else:
+                    data[norm_pos] += 1
                 delta_pos += _shift
-    plt.hist(data, bins=NUM_BINS)
+    print("Finished reading data")
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    width = 0.20
+    toatal = outliers + sum(data)
+    f1 = ax.bar([b*0.01 for b in range(201)], [b/total for b in data], width*2)
+    ax.set_ylabel("Distribution")
+    ax.set_xlabel("Normalized delta")
+    ax.set_title(title)
+    ax.legend()
+    # add_labels(f1, ax)
     save_name = save_path + re.sub('[^A-Za-z0-9]+', '', title)
     plt.savefig(save_name, bbox_inches='tight')
     plt.clf()
+    print("Outliers = {}({})".format(outliers, outliers/total*100))
+
 
 def create_all():
     for t in range(T_MIN, T_MAX+1):
