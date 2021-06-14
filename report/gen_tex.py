@@ -46,14 +46,15 @@ TWO_FIGS = """
 
 
 NORMAL_TUPLES = "/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/tuples/plots/normal"
-V_IS_G_TUPLES = '/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/tuples/plots/v_is_g/'
-ACCURACY_TUPLES = '/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/tuples/plots/accuracy/'
-NORMAL_DIST_TUPLES = '/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/tuples/plots/norm_dist/'
+V_IS_G_TUPLES = "/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/tuples/plots/v_is_g"
+ACCURACY_TUPLES = "/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/tuples/plots/accuracy"
+NORMAL_DIST_TUPLES = "/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/tuples/plots/norm_dist"
 
 NORMAL_RUNS = "/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/runs/plots/normal"
-THM10_RUNS = '/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/runs/plots/thm10'
-V_IS_G_RUNS = '/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/runs/plots/v_is_g/'
-RATIO_RUNS = '/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/runs/plots/ratio'
+THM10_RUNS = "/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/runs/plots/thm10"
+V_IS_G_RUNS = "/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/runs/plots/v_is_g"
+RATIO_RUNS = "/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/runs/plots/ratio"
+ACCURACY_RUNS = "/home/lucasperin/workspace/elgamal_sequences_experiments/histograms/runs/plots/accuracy"
 
 def clear_page(file):
     file.write("\n\\clearpage\n")
@@ -93,4 +94,6 @@ if __name__ == "__main__":
         write_figures(V_IS_G_RUNS, "Run bounds (V is Generator experiment)", f)
         clear_page(f)
         write_figures(RATIO_RUNS, "Run bounds (Ratio experiment)", f)
+        clear_page(f)
+        write_figures(ACCURACY_RUNS, "Run bounds (Accuracy experiment)", f)
         f.write(END)

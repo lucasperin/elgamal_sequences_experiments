@@ -12,6 +12,8 @@ v_is_g_plot_path = "../plots/v_is_g/"
 
 ratio_plot_path = "../plots/ratio/"
 
+accuracy_plot_path = "../plots/accuracy/"
+
 def run_normal():
     print("Run Normal")
     init_clr9()
@@ -48,12 +50,37 @@ def ratio_all():
         ratio("v = {} (Normalized)".format(v), normal_run_data, ratio_plot_path, v, True, ratio_condition_one_v)
         ratio("v = {} And v is Gen(Normalized)".format(v), v_is_g_run_data, ratio_plot_path, v, True, ratio_condition_v_equals_g_one_v)
 
+def run_accuracy():
+    print("Run Accuracy")
+    init_clr9()
+    #LOWER BOUND
+    create_accuracy2(LB_DELTA_START, normal_run_data, normal_run_data, accuracy_plot_path,
+                     "Runs Lower Bound Accuracy", "Including zero", "nonzero", condition_all_lb, condition_greater_than_zero)
+    create_accuracy2(LB_DELTA_START, normal_run_data, v_is_g_run_data, accuracy_plot_path,
+                     "Runs Lower Bound Accuracy (g is v)", "all (including zero)", "g = v", condition_all_lb, condition_all_lb)
+    create_accuracy2(LB_DELTA_START, normal_run_data, normal_run_data, accuracy_plot_path,
+                     "Runs Lower Bound Accuracy all vs binary", "all (including zero)", "binary", condition_all_lb, condition_binary_lb)
+    create_accuracy2(LB_DELTA_START, v_is_g_run_data, v_is_g_run_data, accuracy_plot_path,
+                     "Runs Lower Bound Accuracy all (g is v) vs binary (g is v)", "all (g is v)", "binary (g is v)", condition_all_lb, condition_binary_lb)
+    create_accuracy2(LB_DELTA_START, normal_run_data, v_is_g_run_data, accuracy_plot_path,
+                     "Runs Lower Bound Accuracy binary vs binary where v is g", "binary", "binary (v is g)", condition_binary_lb, condition_binary_lb)
+
+    #UPPER BOUND
+    create_accuracy2(UB_DELTA_START, normal_run_data, v_is_g_run_data, accuracy_plot_path,
+                     "Runs Upper Bound Accuracy", "all(?)", "g = v", condition_all_ub, condition_g_equals_v)
+    create_accuracy2(UB_DELTA_START, normal_run_data, normal_run_data, accuracy_plot_path,
+                     "Runs Upper Bound Accuracy all s binary", "all", "binary", condition_all_ub, condition_binary_ub)
+    create_accuracy2(UB_DELTA_START, v_is_g_run_data, v_is_g_run_data, accuracy_plot_path,
+                     "Runs Upper Bound Accuracy all (g is v) s binary (g is v)", "all (g is v)", "binary (g is v)", condition_all_ub, condition_binary_ub)
+    create_accuracy2(UB_DELTA_START, normal_run_data, v_is_g_run_data, accuracy_plot_path,
+                     "Runs Upper Bound Accuracy binary vs binary where v is g", "binary", "binary (v is g)", condition_binary_ub, condition_binary_ub)
 
 functions = {
     'normal': run_normal,
     'thm10': run_thm_10,
     'v_is_g': run_v_is_g,
     'ratio': ratio_all,
+    'accuracy': run_accuracy,
 }
 
 if __name__ == '__main__':

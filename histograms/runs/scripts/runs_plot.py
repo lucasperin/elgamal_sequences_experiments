@@ -98,6 +98,16 @@ def condition_g_equals_v(data, row, pos, t):
             data.append(UB_FUNC(row,t) - int(row[pos]))
 
 
+def condition_binary_ub(data, row, pos, t):
+    if CONDITION(row,t):
+        if int(row[V]) == 2:
+            data.append(UB_FUNC(row,t) - int(row[pos]))
+
+def condition_binary_lb(data, row, pos, t):
+    if CONDITION(row,t):
+        if int(row[V]) == 2:
+            data.append(int(row[pos]) - LB_FUNC(row, t))
+
 
 """
 PLOT HELPER FUNCTIONS
@@ -184,51 +194,61 @@ def ratio(title, file_name, save_path, v, normalized, condition=None):
             plt.clf()
 
 
-# def add_labels(fig, ax):
-#     for bar in fig:
-#         height = bar.get_height()
-#         ax.annotate("{:.1f}%".format(height),
-#                     xy=(bar.get_x() + bar.get_width() / 2, height/2),
-#                     xytext=(0, 3),  # 3 points vertical offset
-#                     textcoords="offset points",
-#                     ha='center', va='bottom', rotation=90)
-#
-# def create_accuracy(bound_start, title, label1, label2, condition1=None, condition2=None):
-#     if not callable(condition1):
-#         return
-#     if not callable(condition2):
-#         return
-#
-#     acc1 = [None]*T_NUM
-#     acc2 = [None]*T_NUM
-#     with open(FILE_NAME, 'r') as csvfile:
-#         reader = csv.reader(csvfile, delimiter=CSV_DELIMITER)
-#         bins = list(range(T_MIN, T_MAX+1))
-#         for t in bins:
-#             data1 = []
-#             data2 = []
-#             i = t-T_MIN
-#             pos = i*SHIFT + bound_start
-#             csvfile.seek(0)
-#             for row in reader:
-#                 condition1(data1, row, pos, t)
-#                 condition2(data2, row, pos, t)
-#             acc1[i] = data1.count(0)/len(data1)*100
-#             acc2[i] = data2.count(0)/len(data2)*100
-#     fig = plt.figure()
-#     ax = fig.add_subplot(111)
-#     width = 0.20
-#     f1 = ax.bar([b-width for b in bins], acc1, width*2, label=label1)
-#     f2 = ax.bar([b+width for b in bins], acc2, width*2, label=label2)
-#     ax.set_ylabel("Bound Accuraty (%)")
-#     ax.set_xlabel("t")
-#     ax.set_title(title)
-#     ax.legend()
-#     add_labels(f1, ax)
-#     add_labels(f2, ax)
-#     save_name = re.sub('[^A-Za-z0-9]+', '', title)
-#     #plt.savefig(save_name, bbox_inches='tight', transparent=True)
-#     plt.savefig(save_name, bbox_inches='tight')
-#     plt.clf()
+def add_labels(fig, ax):
+    for bar in fig:
+        height = bar.get_height()
+        ax.annotate("{:.1f}%".format(height),
+                    xy=(bar.get_x() + bar.get_width() / 2, height/2),
+                    xytext=(0, 3),  # 3 points vertical offset
+                    textcoords="offset points",
+                    ha='center', va='bottom', rotation=90)
+
+
+def create_accuracy2(bound_start, file_name1, file_name2, save_path, title, label1, label2, condition1=None, condition2=None):
+    if not callable(condition1):
+        return
+    if not callable(condition2):
+        return
+
+    acc1 = [0]*T_NUM
+    acc2 = [0]*T_NUM
+    with open(file_name1, 'r') as csvfile:
+        reader = csv.reader(csvfile, delimiter=CSV_DELIMITER)
+        bins = list(range(T_MIN, T_MAX+1))
+        for t in bins:
+            data1 = []
+            pos = (t - T_MIN) * SHIFT + bound_start
+            csvfile.seek(0)
+            for row in reader:
+                if len(row) > pos:  # sometimes this is required since the sequence might not have all tuple lengths.
+                    condition1(data1, row, pos, t)
+            acc1[t-T_MIN] = data1.count(0)/len(data1)*100
+    with open(file_name2, 'r') as csvfile:
+        reader = csv.reader(csvfile, delimiter=CSV_DELIMITER)
+        bins = list(range(T_MIN, T_MAX+1))
+        for t in bins:
+            data2 = []
+            pos = (t - T_MIN) * SHIFT + bound_start
+            csvfile.seek(0)
+            for row in reader:
+                if len(row) > pos:  # sometimes this is required since the sequence might not have all tuple lengths.
+                    condition2(data2, row, pos, t)
+            acc2[t-T_MIN] = data2.count(0)/len(data2)*100
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    width = 0.20
+    f1 = ax.bar([b-width for b in bins], acc1, width*2, label=label1)
+    f2 = ax.bar([b+width for b in bins], acc2, width*2, label=label2)
+    ax.set_ylabel("Bound Accuraty (%)")
+    ax.set_xlabel("t")
+    ax.set_title(title)
+    ax.legend()
+    add_labels(f1, ax)
+    add_labels(f2, ax)
+    save_name = save_path + re.sub('[^A-Za-z0-9]+', '', title)
+    #plt.savefig(save_name, bbox_inches='tight', transparent=True)
+    plt.savefig(save_name, bbox_inches='tight')
+    plt.clf()
+    plt.close(fig)
 
 
