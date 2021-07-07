@@ -35,33 +35,33 @@ def tuple_v_is_g():
 def tuple_accuracy():
     print("Run Accuracy")
     create_accuracy2(LB_DELTA_START, normal_tuple_data, normal_tuple_data, accuracy_plot_path,
-                    "Tuples Lower Bound Accuracy", "Including zero", "nonzero", condition_all_lb, condition_greater_than_zero)
+                    "Tuples Lower Bound Accuracy", "All trials", r'$\lambda(z) > 0$', condition_all_lb, condition_greater_than_zero)
     create_accuracy2(LB_DELTA_START, normal_tuple_data, normal_tuple_data, accuracy_plot_path,
-                     "Tuples Envelope Lower Bound Accuracy", "Including zero", "Enveloped", condition_all_lb, condition_all_elb)
+                     "Tuples Envelope Lower Bound Accuracy", "All trials", "Enveloped", condition_all_lb, condition_all_elb)
     create_accuracy2(LB_DELTA_START, normal_tuple_data, normal_tuple_data, accuracy_plot_path,
-                     "Tuples Envelope Lower Bound Accuracy Nonzero", "Nonzero", "Nonzero Enveloped",
+                     "Tuples Envelope Lower Bound Accuracy Nonzero", r'$\lambda(z) > 0$', "Nonzero Enveloped",
                      condition_greater_than_zero, condition_greater_than_zero_env)
     create_accuracy2(LB_DELTA_START, normal_tuple_data, normal_tuple_data, accuracy_plot_path,
-                     "Tuples Lower Bound Accuracy all vs binary", "all (including zero)", "binary", condition_all_lb, condition_binary_lb)
+                     "Tuples Lower Bound Accuracy all vs binary", "All trials", "Binary", condition_all_lb, condition_binary_lb)
     create_accuracy2(LB_DELTA_START, v_is_g_tuple_data, v_is_g_tuple_data, accuracy_plot_path,
-                     "Tuples Lower Bound Accuracy all (g is v) vs binary (g is v)", "all (g is v)", "binary (g is v)", condition_all_lb, condition_binary_lb)
+                     "Tuples Lower Bound Accuracy all (g is v) vs binary (g is v)", r"All ($g = v$)", r"Binary ($g = v$)", condition_all_lb, condition_binary_lb)
     create_accuracy2(LB_DELTA_START, normal_tuple_data, v_is_g_tuple_data, accuracy_plot_path,
-                     "Tuples Lower Bound Accuracy binary vs binary where v is g", "binary", "binary (v is g)", condition_binary_lb, condition_binary_lb)
+                     "Tuples Lower Bound Accuracy binary vs binary where v is g", "Binary", r"Binary ($v = g$)", condition_binary_lb, condition_binary_lb, "green")
 
 
     create_accuracy2(UB_DELTA_START, normal_tuple_data, v_is_g_tuple_data, accuracy_plot_path,
-                    "Tuples Upper Bound Accuracy", "all(?)", "g = v", condition_all_ub, condition_g_equals_v)
+                    "Tuples Upper Bound Accuracy", "All trials", r"$g = v$", condition_all_ub, condition_g_equals_v, 'green')
     create_accuracy2(UB_DELTA_START, normal_tuple_data, normal_tuple_data, accuracy_plot_path,
-                    "Tuples Enveloped Upper Bound Accuracy", "all(?)", "Enveloped", condition_all_ub, condition_all_eub)
+                    "Tuples Enveloped Upper Bound Accuracy", "All trials", "Enveloped", condition_all_ub, condition_all_eub)
     create_accuracy2(UB_DELTA_START, v_is_g_tuple_data, v_is_g_tuple_data, accuracy_plot_path,
-                    "Tuples Enveloped Upper Bound Accuracy g = v", "g = v", "g = v Enveloped",
-                     condition_g_equals_v, condition_g_equals_v_env)
+                    "Tuples Enveloped Upper Bound Accuracy g = v", r"$g = v$", r"$g = v$ Enveloped",
+                     condition_g_equals_v, condition_g_equals_v_env, 'green')
     create_accuracy2(UB_DELTA_START, normal_tuple_data, normal_tuple_data, accuracy_plot_path,
-                     "Tuples Upper Bound Accuracy all s binary", "all", "binary", condition_all_ub, condition_binary_ub)
+                     "Tuples Upper Bound Accuracy all s binary", "All trials", "Binary", condition_all_ub, condition_binary_ub)
     create_accuracy2(UB_DELTA_START, v_is_g_tuple_data, v_is_g_tuple_data, accuracy_plot_path,
-                     "Tuples Upper Bound Accuracy all (g is v) s binary (g is v)", "all (g is v)", "binary (g is v)", condition_all_ub, condition_binary_ub)
+                     "Tuples Upper Bound Accuracy all (g is v) s binary (g is v)", r"All ($g = v$)", r"Binary ($g = v$)", condition_all_ub, condition_binary_ub)
     create_accuracy2(UB_DELTA_START, normal_tuple_data, v_is_g_tuple_data, accuracy_plot_path,
-                     "Tuples Upper Bound Accuracy binary vs binary where v is g", "binary", "binary (v is g)", condition_binary_ub, condition_binary_ub)
+                     "Tuples Upper Bound Accuracy binary vs binary where v is g", "Binary", r"Binary ($v = g$)", condition_binary_ub, condition_binary_ub, "green")
 
 def tuple_norm_dist():
     print("Run Normalized Distribution")

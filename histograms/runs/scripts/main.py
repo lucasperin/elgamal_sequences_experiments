@@ -55,25 +55,25 @@ def run_accuracy():
     init_clr9()
     #LOWER BOUND
     create_accuracy2(LB_DELTA_START, normal_run_data, normal_run_data, accuracy_plot_path,
-                     "Runs Lower Bound Accuracy", "Including zero", "nonzero", condition_all_lb, condition_greater_than_zero)
+                     "Runs Lower Bound Accuracy", "All trials", r'$\rho(b,t)$', condition_all_lb, condition_greater_than_zero)
     create_accuracy2(LB_DELTA_START, normal_run_data, v_is_g_run_data, accuracy_plot_path,
-                     "Runs Lower Bound Accuracy (g is v)", "all (including zero)", "g = v", condition_all_lb, condition_all_lb)
+                     "Runs Lower Bound Accuracy (g is v)", "All trials", r"$g = v$", condition_all_lb, condition_all_lb, "green")
     create_accuracy2(LB_DELTA_START, normal_run_data, normal_run_data, accuracy_plot_path,
-                     "Runs Lower Bound Accuracy all vs binary", "all (including zero)", "binary", condition_all_lb, condition_binary_lb)
+                     "Runs Lower Bound Accuracy all vs binary", "All trials", "Binary", condition_all_lb, condition_binary_lb)
     create_accuracy2(LB_DELTA_START, v_is_g_run_data, v_is_g_run_data, accuracy_plot_path,
-                     "Runs Lower Bound Accuracy all (g is v) vs binary (g is v)", "all (g is v)", "binary (g is v)", condition_all_lb, condition_binary_lb)
+                     "Runs Lower Bound Accuracy all (g is v) vs binary (g is v)", r"All ($g = v$)", r"Binary ($g = v$)", condition_all_lb, condition_binary_lb)
     create_accuracy2(LB_DELTA_START, normal_run_data, v_is_g_run_data, accuracy_plot_path,
-                     "Runs Lower Bound Accuracy binary vs binary where v is g", "binary", "binary (v is g)", condition_binary_lb, condition_binary_lb)
+                     "Runs Lower Bound Accuracy binary vs binary where v is g", "Binary", r"binary ($v = g$)", condition_binary_lb, condition_binary_lb, "green")
 
     #UPPER BOUND
     create_accuracy2(UB_DELTA_START, normal_run_data, v_is_g_run_data, accuracy_plot_path,
-                     "Runs Upper Bound Accuracy", "all(?)", "g = v", condition_all_ub, condition_g_equals_v)
+                     "Runs Upper Bound Accuracy", "All trials", r"$g = v$", condition_all_ub, condition_g_equals_v, "green")
     create_accuracy2(UB_DELTA_START, normal_run_data, normal_run_data, accuracy_plot_path,
-                     "Runs Upper Bound Accuracy all s binary", "all", "binary", condition_all_ub, condition_binary_ub)
+                     "Runs Upper Bound Accuracy all s binary", "All trials", "Binary", condition_all_ub, condition_binary_ub)
     create_accuracy2(UB_DELTA_START, v_is_g_run_data, v_is_g_run_data, accuracy_plot_path,
-                     "Runs Upper Bound Accuracy all (g is v) s binary (g is v)", "all (g is v)", "binary (g is v)", condition_all_ub, condition_binary_ub)
+                     "Runs Upper Bound Accuracy all (g is v) s binary (g is v)", r"All ($g = v$)", r"Binary ($g = v$)", condition_all_ub, condition_binary_ub)
     create_accuracy2(UB_DELTA_START, normal_run_data, v_is_g_run_data, accuracy_plot_path,
-                     "Runs Upper Bound Accuracy binary vs binary where v is g", "binary", "binary (v is g)", condition_binary_ub, condition_binary_ub)
+                     "Runs Upper Bound Accuracy binary vs binary where v is g", "Binary", r"Binary ($v = g$)", condition_binary_ub, condition_binary_ub, "green")
 
 functions = {
     'normal': run_normal,

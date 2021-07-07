@@ -129,7 +129,12 @@ def create_histogram(t, bound_start, title, file_name, save_path, condition=None
         h_data = [ data.count(i) for i in bins ]
         title += " t = {} with {:.2f}% outliers".format(t, (100 - sum(h_data)/len(data)*100))
         plt.bar(bins, h_data)
-        plt.title(title)
+        # plt.title(title)
+        plt.ylabel("# occurrences")
+        if bound_start == LB_DELTA_START:
+            plt.xlabel(r'$\lambda(z) - lb$')
+        else:
+            plt.xlabel(r'$ub - \lambda(z)$')
         save_name = save_path + re.sub('[^A-Za-z0-9]+', '', title)
         plt.savefig(save_name, bbox_inches='tight')
         #plt.savefig(save_name, bbox_inches='tight', transparent=True)
@@ -147,7 +152,7 @@ def add_labels(fig, ax):
                     ha='center', va='bottom', rotation=90)
 
 
-def create_accuracy2(bound_start, file_name1, file_name2, save_path, title, label1, label2, condition1=None, condition2=None):
+def create_accuracy2(bound_start, file_name1, file_name2, save_path, title, label1, label2, condition1=None, condition2=None, custom_color='orange'):
     if not callable(condition1):
         return
     if not callable(condition2):
@@ -181,10 +186,11 @@ def create_accuracy2(bound_start, file_name1, file_name2, save_path, title, labe
     ax = fig.add_subplot(111)
     width = 0.20
     f1 = ax.bar([b-width for b in bins], acc1, width*2, label=label1)
-    f2 = ax.bar([b+width for b in bins], acc2, width*2, label=label2)
+    f2 = ax.bar([b+width for b in bins], acc2, width*2, label=label2, color=custom_color)
+
     ax.set_ylabel("Bound Accuraty (%)")
     ax.set_xlabel("t")
-    ax.set_title(title)
+    # ax.set_title(title)
     ax.legend()
     add_labels(f1, ax)
     add_labels(f2, ax)
@@ -225,7 +231,7 @@ def create_accuracy(bound_start, file_name, save_path, title, label1, label2, co
     f2 = ax.bar([b+width for b in bins], acc2, width*2, label=label2)
     ax.set_ylabel("Bound Accuraty (%)")
     ax.set_xlabel("t")
-    ax.set_title(title)
+    # ax.set_title(title)
     ax.legend()
     add_labels(f1, ax)
     add_labels(f2, ax)
@@ -263,11 +269,11 @@ def create_normalized_distribution(title, file_name, save_path):
     fig = plt.figure()
     ax = fig.add_subplot(111)
     width = 0.20
-    toatal = outliers + sum(data)
+    total = outliers + sum(data)
     f1 = ax.bar([b*0.01 for b in range(201)], [b/total for b in data], width*2)
-    ax.set_ylabel("Distribution")
-    ax.set_xlabel("Normalized delta")
-    ax.set_title(title)
+    ax.set_ylabel("Frequency")
+    ax.set_xlabel(r'Normalized $\lambda(z)$')
+    # ax.set_title(title)
     ax.legend()
     # add_labels(f1, ax)
     save_name = save_path + re.sub('[^A-Za-z0-9]+', '', title)
