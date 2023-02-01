@@ -6,6 +6,11 @@ import matplotlib.pyplot as plt
 import re
 from math import ceil, floor, gcd
 
+plt.rcParams.update({'font.size': 14})
+plt.rcParams['axes.spines.top'] = False
+plt.rcParams['axes.spines.right'] = False
+
+
 CSV_DELIMITER='\t'
 T_MIN=1
 T_MAX=7
@@ -51,6 +56,31 @@ def init_theorem10():
     UB_FUNC=ub_thm10
     THM=10
 
+def lb_clr8(row, t):
+    g, p, v = int(row[G]), int(row[P]), int(row[V])
+    qt = floor(p / (pow(g, t)))
+    qt1 = floor(p / (pow(g, t + 1)))
+    return (int(pow(floor(g/v), t-1) * floor(((v-1)*g)/v) * floor(qt/v))) - \
+        (int(pow(ceil(g/v), t) * ceil(((v-1)*g)/v) * ceil((qt1 + 1)/v)))
+
+def ub_clr8(row, t):
+    g, p, v = int(row[G]), int(row[P]), int(row[V])
+    qt = floor(p / (pow(g, t)))
+    qt1 = floor(p / (pow(g, t + 1)))
+    return (int(pow(ceil(g / v), t - 1) * ceil(((v - 1) * g) / v) * ceil((qt +1)/ v))) - \
+        (int(pow(floor(g / v), t) * floor(((v - 1) * g) / v) * floor(qt1 / v)))
+
+def clr8_condition(row, t):
+    return True
+
+def init_clr8():
+    print("Initializing Corollary8")
+    global CONDITION, LB_FUNC, UB_FUNC, THM
+    CONDITION=clr8_condition
+    LB_FUNC=lb_clr8
+    UB_FUNC=ub_clr8
+    THM=8
+
 def lb_clr9(row, t):
     g, p, v = int(row[G]), int(row[P]), int(row[V])
     q = floor(p / (pow(g, t +1)))
@@ -65,7 +95,7 @@ def clr9_condition(row, t):
     return True
 
 def init_clr9():
-    print("Initializing THM9")
+    print("Initializing Corollary9")
     global CONDITION, LB_FUNC, UB_FUNC, THM
     CONDITION=clr9_condition
     LB_FUNC=lb_clr9
@@ -126,9 +156,10 @@ def create_histogram(t, bound_start, title, file_name, save_path, condition=None
     if len(data) > 0:
         bins = list(range(NUM_BINS))
         h_data = [ data.count(i) for i in bins ]
-        title += "t = {} with {:.2f}% outliers (Theorem {})".format(t, (100 - sum(h_data)/len(data)*100), THM)
+        short_title = "t = {} with {:.2f}% outliers".format(t, (100 - sum(h_data)/len(data)*100), THM)
+        title += short_title + "(Theorem {})".format(THM)
         plt.bar(bins, h_data)
-        # plt.title(title)
+        plt.title(short_title, y=1.0, pad=-15)
         plt.ylabel("# occurrences")
         if bound_start == LB_DELTA_START:
             plt.xlabel(r'$\rho(b,t) - lb$')
@@ -193,6 +224,7 @@ def ratio(title, file_name, save_path, v, normalized, condition=None):
             # plt.title(title)
             #plt.scatter(data_x, data_y)
             plt.hist2d(data_x, data_y, bins=50, cmap=plt.cm.jet, cmin=1)
+            plt.colorbar()
             save_name = save_path + re.sub('[^A-Za-z0-9]+', '', title)
             plt.ylabel(r'$\frac{\rho(t+1)v}{\rho(t)}$')
             plt.xlabel("t")
@@ -246,10 +278,17 @@ def create_accuracy2(bound_start, file_name1, file_name2, save_path, title, labe
     width = 0.20
     f1 = ax.bar([b-width for b in bins], acc1, width*2, label=label1)
     f2 = ax.bar([b+width for b in bins], acc2, width*2, label=label2, color=custom_color)
-    ax.set_ylabel("Bound Accuraty (%)")
+
+    if bound_start == LB_DELTA_START:
+        ax.set_ylabel("Lower Bound Accuraty (%)")
+    else:
+        ax.set_ylabel("Upper Bound Accuraty (%)")
+
     ax.set_xlabel("t")
     # ax.set_title(title)
-    ax.legend()
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15),
+              fancybox=True, shadow=True, ncol=5)
+
     add_labels(f1, ax)
     add_labels(f2, ax)
     save_name = save_path + re.sub('[^A-Za-z0-9]+', '', title)

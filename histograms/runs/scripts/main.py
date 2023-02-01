@@ -23,6 +23,13 @@ def run_normal():
         create_histogram(t, UB_DELTA_START, "UB, ", normal_run_data, normal_plot_path, condition_all_ub)
         create_histogram(t, UB_DELTA_START, "UB (g=v), ", normal_run_data, normal_plot_path, condition_g_equals_v)
 
+    init_clr8()
+    for t in range(T_MIN, T_MAX+1):
+        create_histogram(t, LB_DELTA_START, "LB, ", normal_run_data, normal_plot_path, condition_all_lb)
+        create_histogram(t, LB_DELTA_START, "LB (> 0), ", normal_run_data, normal_plot_path, condition_greater_than_zero)
+        create_histogram(t, UB_DELTA_START, "UB, ", normal_run_data, normal_plot_path, condition_all_ub)
+        create_histogram(t, UB_DELTA_START, "UB (g=v), ", normal_run_data, normal_plot_path, condition_g_equals_v)
+
 
 def run_thm_10():
     print("Run THM10")
@@ -43,6 +50,13 @@ def run_v_is_g():
         create_histogram(t, UB_DELTA_START, "UB, ", v_is_g_run_data, v_is_g_plot_path, condition_all_ub)
         create_histogram(t, UB_DELTA_START, "UB (g=v), ", v_is_g_run_data, v_is_g_plot_path, condition_g_equals_v)
 
+    init_clr8()
+    for t in range(T_MIN, T_MAX+1):
+        create_histogram(t, LB_DELTA_START, "LB, ", v_is_g_run_data, v_is_g_plot_path, condition_all_lb)
+        create_histogram(t, LB_DELTA_START, "LB (> 0), ", v_is_g_run_data, v_is_g_plot_path, condition_greater_than_zero)
+        create_histogram(t, UB_DELTA_START, "UB, ", v_is_g_run_data, v_is_g_plot_path, condition_all_ub)
+        create_histogram(t, UB_DELTA_START, "UB (g=v), ", v_is_g_run_data, v_is_g_plot_path, condition_g_equals_v)
+
 def ratio_all():
     ratio("All Data (Normalized)", normal_run_data, ratio_plot_path, 0, True, ratio_condition_all)
     ratio("All Data And v is Gen (Normalized)", v_is_g_run_data, ratio_plot_path, 0, True, ratio_condition_v_equals_g_all)
@@ -52,6 +66,7 @@ def ratio_all():
 
 def run_accuracy():
     print("Run Accuracy")
+    print("Lower bound for corollary 9")
     init_clr9()
     #LOWER BOUND
     create_accuracy2(LB_DELTA_START, normal_run_data, normal_run_data, accuracy_plot_path,
@@ -65,6 +80,8 @@ def run_accuracy():
     create_accuracy2(LB_DELTA_START, normal_run_data, v_is_g_run_data, accuracy_plot_path,
                      "Runs Lower Bound Accuracy binary vs binary where v is g", "Binary", r"binary ($v = g$)", condition_binary_lb, condition_binary_lb, "green")
 
+    print("upper bound for corollary 9")
+    init_clr8()
     #UPPER BOUND
     create_accuracy2(UB_DELTA_START, normal_run_data, v_is_g_run_data, accuracy_plot_path,
                      "Runs Upper Bound Accuracy", "All trials", r"$g = v$", condition_all_ub, condition_g_equals_v, "green")

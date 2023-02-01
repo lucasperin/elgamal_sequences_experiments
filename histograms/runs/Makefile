@@ -4,7 +4,7 @@ NORMAL_DIR=plots/normal
 THM10_DIR=plots/thm10
 V_IS_G_DIR=plots/v_is_g
 RATIO_DIR=plots/ratio
-ACCURACY_DIR=accuracy/ratio
+ACCURACY_DIR=plots/accuracy
 MAIN=main.py
 
 all: normal thm10 v_is_g ratio accuracy
@@ -49,4 +49,4 @@ clean_ratio:
 clean_accuracy:
 	rm -f $(ACCURACY_DIR)/*.png
 
-clean_all: clean_normal clean_thm10 clean_v_is_g clean_ratio
+clean_all: clean_normal clean_thm10 clean_v_is_g clean_ratio clean_accuracy
