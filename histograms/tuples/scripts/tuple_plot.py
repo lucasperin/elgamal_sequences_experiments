@@ -259,10 +259,11 @@ def normalize_delta(p, v, t, delta):
 
 
 def normalize_delta2(p, v, t, delta):
-    # print(delta, sqrt((p - 1) / pow(v, t)))
-    # \sqrt{\frac{v^t}{p-1}}  \lambda(z) - \sqrt{\frac{p-1}{v^t}}
-    return sqrt(pow(v, t) / (p - 1)) * delta - sqrt((p - 1) / pow(v, t))
-    # return sqrt(pow(v, t) / (p - 1)) * delta - (p - 1) / pow(v, t)
+    # return sqrt(pow(v, t) / (p - 1)) * delta - sqrt((p - 1) / pow(v, t))
+    a = sqrt(pow(v, t) / (p - 1)) * delta - sqrt((p - 1) / pow(v, t))
+    b = sqrt(pow(v, t) / (p - 1)) * (delta - ((p - 1) / pow(v, t)))
+    assert int(a*10000) == int(b*10000) , "a = {} and b = {} with p = {} v = {} t = {} and delta = {}".format(a, b, p, v, t, delta)
+    return a
 
 
 def create_normalized_distribution2(title, file_name, save_path):
@@ -311,7 +312,7 @@ def create_normalized_distribution(title, file_name, save_path):
     _shift = 1
     with open(file_name, 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter=CSV_DELIMITER)
-        data = [0]*201
+        data = [0]*61
         outliers = 0
         for row in reader:
             delta_pos = _d_start
@@ -320,24 +321,23 @@ def create_normalized_distribution(title, file_name, save_path):
             t = int(row[3])
             while len(row) > delta_pos:
                 norm = normalize_delta2(p, v, t, int(row[delta_pos]))
-                norm_pos = int(norm*100)
-                if norm_pos > 200 or norm_pos < 0:
+                norm_pos = int(norm*10) + 30
+                if norm_pos > 60 or norm_pos < 0:
                     outliers +=1
                 else:
                     data[norm_pos] += 1
                 delta_pos += _shift
     print("Finished reading data")
+    print(data)
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    width = 0.20
     total = outliers + sum(data)
-    f1 = ax.bar([b*0.01 for b in range(201)], [b/total for b in data], width*2)
+    f1 = ax.bar([b/10 for b in range(-30,31)], [b/total for b in data], 0.075)
     ax.set_ylabel("Frequency")
     ax.set_xlabel(r'Normalized $\lambda(z)$')
-    outliers_text = "{}% outliers".format(outliers / total * 100)
+    outliers_text = "{:.2f}% outliers".format(outliers / total * 100)
     # ax.set_title(title)
     ax.set_title(outliers_text, y=1.0, pad=-15)
-    ax.legend()
     # add_labels(f1, ax)
     save_name = save_path + re.sub('[^A-Za-z0-9]+', '', title)
     plt.savefig(save_name, bbox_inches='tight')
